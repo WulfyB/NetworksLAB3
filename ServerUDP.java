@@ -18,7 +18,6 @@ public class ServerUDP {
    private static final int MAGICNUM = 0x4A6F7921;
    public static void main(String[] args) throws IOException {
    
-      ServerUDP serv = new ServerUDP();
       if (args.length != 2) 
       {
       // Test for correct # of args     
@@ -119,7 +118,7 @@ public class ServerUDP {
             else
             {
                InetAddress addr = socket.getInetAddress();
-               clientIP = serv.getIP32(addr.getAddress());
+               clientIP = getIP32(addr.getAddress());
                TML = 7;
                recPort = (short) (inPacket.getData()[4] << 8 | inPacket.getData()[5]);
                response = new byte[7];
@@ -150,7 +149,7 @@ public class ServerUDP {
       }  
    }     
    
-   long getIP32(byte[] bytes) {
+   static long getIP32(byte[] bytes) {
       int val = 0;
       for (int i = 0; i < bytes.length; i++) {
          val <<= 8;
