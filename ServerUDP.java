@@ -11,9 +11,12 @@ import java.nio.ByteBuffer;
 
 
 public class ServerUDP { 
-   
+
+   /*
+   Does note appear useful in this lab.
    private static final int TIMEOUT = 3000; // Resend timeout (milliseconds) 
    private static final int MAXTRIES = 7; // Maximum retransmissions 
+   */
    private static final int MAX_MESSAGE_LENGTH = 7;
    private static final int MAGICNUM = 0x4A6F7921;
    public static void main(String[] args) throws IOException {
@@ -40,12 +43,18 @@ public class ServerUDP {
             boolean genErr = false;
             boolean mnErr = false;
             boolean portErr = false;
+            boolean lenErr = false;
             socket.receive(inPacket);
             //inPacket format: 
             //4 bytes magicnum 0-3
             //ph (MSByte of port num)4
             //pl (LSByte of porn num)5
             //GID (byte)6
+            if (inPacket.getLength() != 7)
+            {
+               genErr = true;
+               lenErr = true;
+            }
             int recMagicNum = inPacket.getData()[0] << 24 
                | inPacket.getData()[1] << 16 | inPacket.getData()[2] << 8 
                | inPacket.getData()[3];
@@ -69,6 +78,7 @@ public class ServerUDP {
             }
             if (genErr)
             {
+               TML = 7;
                byte XY = 0;
                if (mnErr)
                {
@@ -78,7 +88,11 @@ public class ServerUDP {
                {
                   XY |= 0x2;
                }
-               response = new byte[11];
+               if (lenErr)
+               {
+                  XY |= 0x4;
+               }
+               response = new byte[TML];
                response[0] = (byte)(MAGICNUM >> 24);
                response[1] = (byte)(MAGICNUM >> 16);
                response[2] = (byte)(MAGICNUM >> 8);
@@ -95,7 +109,8 @@ public class ServerUDP {
             
             if (waitingClient)
             {  
-               response = new byte[11];
+               TML = 11;
+               response = new byte[TML];
                response[0] = (byte)(MAGICNUM >> 24);
                response[1] = (byte)(MAGICNUM >> 16);
                response[2] = (byte)(MAGICNUM >> 8);
@@ -121,7 +136,7 @@ public class ServerUDP {
                clientIP = getIP32(addr.getAddress());
                TML = 7;
                recPort = (short) (inPacket.getData()[4] << 8 | inPacket.getData()[5]);
-               response = new byte[7];
+               response = new byte[TML];
                response[0] = (byte)(MAGICNUM >> 24);
                response[1] = (byte)(MAGICNUM >> 16);
                response[2] = (byte)(MAGICNUM >> 8);
