@@ -66,8 +66,9 @@ public class ServerUDP {
                
             }
             short portCheck = (short) ((inPacket.getData()[4] << 8) | inPacket.getData()[5]);
-            boolean tooBig = portCheck > (10010 + (5*inPacket.getData()[6] + 4));
-            boolean tooSmall = portCheck < (10010 + (5*inPacket.getData()[6]));
+            clientGID = inPacket.getData()[6];
+            boolean tooBig = portCheck > (10010 + (5*clientGID + 4));
+            boolean tooSmall = portCheck < (10010 + (5*clientGID));
             
             byte[] response;
             int TML = 0;
@@ -84,11 +85,11 @@ public class ServerUDP {
                {
                   XY |= 0x1;
                }
-               if (portErr)
+               if (lenErr)
                {
                   XY |= 0x2;
                }
-               if (lenErr)
+               if (portErr)
                {
                   XY |= 0x4;
                }
