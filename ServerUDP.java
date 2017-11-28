@@ -21,14 +21,14 @@ public class ServerUDP {
    private static final int MAGICNUM = 0x4A6F7921;
    public static void main(String[] args) throws IOException {
    
-      if (args.length != 2) 
+      if (args.length != 1) 
       {
       // Test for correct # of args     
          System.err.println("Parameter(s): <Servername> <Port#>");
          return; 
       }
       boolean waitingClient = false;
-      int servPort = Integer.parseInt(args[1]);
+      int servPort = Integer.parseInt(args[0]);
       short recPort = 0;
       byte clientGID = -1;
       long clientIP = 0;
