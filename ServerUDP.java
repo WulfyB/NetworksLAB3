@@ -17,7 +17,7 @@ public class ServerUDP {
    private static final int TIMEOUT = 3000; // Resend timeout (milliseconds) 
    private static final int MAXTRIES = 7; // Maximum retransmissions 
    */
-   private static final int MAX_MESSAGE_LENGTH = 7;
+   private static final int MAX_MESSAGE_LENGTH = 8;
    private static final int MAGICNUM = 0x4A6F7921;
    public static void main(String[] args) throws IOException {
    
