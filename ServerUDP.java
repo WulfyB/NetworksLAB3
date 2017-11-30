@@ -35,11 +35,10 @@ public class ServerUDP {
       
       try{ //try block for attempting to send and recieve the message
          DatagramSocket socket = new DatagramSocket(servPort);
-         DatagramPacket inPacket = 
-            new DatagramPacket(new byte[MAX_MESSAGE_LENGTH], MAX_MESSAGE_LENGTH);
       
          while(true)
          {
+            DatagramPacket inPacket = new DatagramPacket(new byte[MAX_MESSAGE_LENGTH], MAX_MESSAGE_LENGTH);
             boolean genErr = false;
             boolean mnErr = false;
             boolean portErr = false;
