@@ -6,8 +6,8 @@
 
 import java.net.*; // for DatagramSocket, DatagramPacket, and InetAddress
 import java.io.*; // for IOException
-import java.text.DecimalFormat; //for Formating
-import java.nio.ByteBuffer;
+//import java.text.DecimalFormat; //for Formating
+//import java.nio.ByteBuffer;
 
 
 public class ServerUDP { 
@@ -17,14 +17,14 @@ public class ServerUDP {
    private static final int TIMEOUT = 3000; // Resend timeout (milliseconds) 
    private static final int MAXTRIES = 7; // Maximum retransmissions 
    */
-   private static final int MAX_MESSAGE_LENGTH = 8;
+   private static final int MAX_MESSAGE_LENGTH = 8;//extra size to detect oversize frames
    private static final int MAGICNUM = 0x4A6F7921;
    public static void main(String[] args) throws IOException {
    
       if (args.length != 1) 
       {
       // Test for correct # of args     
-         System.err.println("Parameter(s): <Servername> <Port#>");
+         System.err.println("Parameter(s): <Port#>");
          return; 
       }
       boolean waitingClient = false;
@@ -61,9 +61,9 @@ public class ServerUDP {
             {
                genErr = true;
                mnErr = true;
-               System.out.println("Error occured");
+               /*System.out.println("Error occured");
                System.out.println("Recieved MagicNum: " + recMagicNum);
-               System.out.println("Expected: " + MAGICNUM);
+               System.out.println("Expected: " + MAGICNUM);*/
             //System.exit(1);
             }
             short portCheck = (short) ((inPacket.getData()[4] << 8) | inPacket.getData()[5]);
@@ -105,7 +105,7 @@ public class ServerUDP {
                DatagramPacket outPacket = new DatagramPacket(response, TML, inPacket.getAddress(), inPacket.getPort());
                socket.send(outPacket);
                inPacket.setLength(MAX_MESSAGE_LENGTH); 
-               System.out.println("Sending failure packet.");
+               //System.out.println("Sending failure packet.");
                continue;
             }
          
