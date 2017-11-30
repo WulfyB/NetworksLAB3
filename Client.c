@@ -221,7 +221,11 @@ int main(int argc, char *argv[])
 				perror("recv");
 				exit(1);
 			}
+
 			printf("Received: %s", buf);
+			if (strcmp(buf, "Bye Bye Birdie\n") == 0) {
+				exit(1);
+			}
 			
 			//Read input
 			printf("Enter your message: ");
@@ -232,6 +236,10 @@ int main(int argc, char *argv[])
 			{
 				perror("send");
 				exit(1); 
+			}
+
+			if (strcmp(message,"Bye Bye Birdie\n") == 0) {
+				exit(1);
 			}
 			printf("Waiting for response...\n");
 		}
@@ -297,7 +305,11 @@ int main(int argc, char *argv[])
 				perror("send");
 				exit(1); 
 			}
-			
+
+			if (strcmp(message, "Bye Bye Birdie\n") == 0) {
+				exit(1);
+			}
+		
 			printf("Waiting for response...\n");
 			
 			if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) 
@@ -305,7 +317,11 @@ int main(int argc, char *argv[])
 				perror("recv");
 				exit(1);
 			}
-			buf[numbytes] = '\0';
+
+			if (strcmp(buf, "Bye Bye Birdie\n") == 0) {
+				exit(1);
+			}
+
 			printf("Received: %s", buf);
 		}	
 	}
