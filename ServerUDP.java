@@ -61,10 +61,10 @@ public class ServerUDP {
             {
                genErr = true;
                mnErr = true;
-	       System.out.println("Error occured");
-	       System.out.println("Recieved MagicNum: " + recMagicNum);
-	       System.out.println("Expected: " + MAGICNUM);
-	       System.exit(1);
+               System.out.println("Error occured");
+               System.out.println("Recieved MagicNum: " + recMagicNum);
+               System.out.println("Expected: " + MAGICNUM);
+            //System.exit(1);
             }
             short portCheck = (short) ((inPacket.getData()[4] << 8) | inPacket.getData()[5]);
             clientGID = inPacket.getData()[6];
@@ -105,6 +105,7 @@ public class ServerUDP {
                DatagramPacket outPacket = new DatagramPacket(response, TML, inPacket.getAddress(), inPacket.getPort());
                socket.send(outPacket);
                inPacket.setLength(MAX_MESSAGE_LENGTH); 
+               System.out.println("Sending failure packet.");
                continue;
             }
          
@@ -146,11 +147,11 @@ public class ServerUDP {
                response[4] = 13;
                response[5] = inPacket.getData()[4]; 
                response[6] = inPacket.getData()[5];
-
+            
                DatagramPacket outPacket = new DatagramPacket(response, TML, addr, inPacket.getPort());
-	       System.out.println("Received packet from waiting client");
+               System.out.println("Received packet from waiting client");
                System.out.println("Sending response");
-	       socket.send(outPacket);
+               socket.send(outPacket);
                waitingClient = true;
             }
             inPacket.setLength(MAX_MESSAGE_LENGTH);
