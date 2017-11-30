@@ -27,12 +27,17 @@ public class ServerUDP {
          System.err.println("Parameter(s): <Port#>");
          return; 
       }
+      
       boolean waitingClient = false;
       int servPort = Integer.parseInt(args[0]);
       short recPort = 0;
       byte clientGID = -1;
       long clientIP = 0;
-      
+      if( 10079 < servPort || 10075 > servPort)
+      {
+         System.err.println("myPort must be between within the range (10075, 10079) inclusive");
+         return;
+      }
       try{ //try block for attempting to send and recieve the message
          DatagramSocket socket = new DatagramSocket(servPort);
       
